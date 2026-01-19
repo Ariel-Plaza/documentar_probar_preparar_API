@@ -1,12 +1,12 @@
-package med.voll.api.domain.medico;
+package med.voll.api.domain.paciente;
 
 import jakarta.validation.constraints.NotNull;
 import med.voll.api.domain.direccion.DatosDireccion;
 
-public record DatosActualizacionMedico(
-        @NotNull Long id,
+public record DatosActualizarPaciente(
+        @NotNull
+        Long id,
         String nombre,
         String telefono,
-        DatosDireccion direccion
-) {
+        DatosDireccion direccion) {
 }

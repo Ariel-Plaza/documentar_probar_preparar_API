@@ -1,7 +1,6 @@
 package med.voll.api.domain.medico;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,46 +14,44 @@ import med.voll.api.domain.direccion.Direccion;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Medico {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Boolean activo;
     private String nombre;
     private String email;
     private String telefono;
     private String documento;
 
+    private Boolean activo;
     @Enumerated(EnumType.STRING)
     private Especialidad especialidad;
-
     @Embedded
     private Direccion direccion;
 
-    public Medico(DatosRegistroMedico datos) {
-        this.id = null;
+    public Medico(DatosRegistroMedico datosRegistroMedico) {
         this.activo = true;
-        this.nombre = datos.nombre();
-        this.email = datos.email();
-        this.telefono = datos.telefono();
-        this.documento = datos.documento();
-        this.especialidad = datos.especialidad();
-        this.direccion = new Direccion(datos.direccion());
+        this.nombre = datosRegistroMedico.nombre();
+        this.email = datosRegistroMedico.email();
+        this.documento = datosRegistroMedico.documento();
+        this.telefono = datosRegistroMedico.telefono();
+        this.especialidad = datosRegistroMedico.especialidad();
+        this.direccion = new Direccion(datosRegistroMedico.direccion());
     }
 
-    public void actualizarInformaciones(@Valid DatosActualizacionMedico datos) {
-        if (datos.nombre() != null) {
-            this.nombre = datos.nombre();
+    public void actualizarDatos(DatosActualizarMedico datosActualizarMedico) {
+        if (datosActualizarMedico.nombre() != null) {
+            this.nombre = datosActualizarMedico.nombre();
         }
-        if (datos.telefono() != null) {
-            this.telefono = datos.telefono();
+        if (datosActualizarMedico.documento() != null) {
+            this.documento = datosActualizarMedico.documento();
         }
-        if (datos.direccion() != null) {
-            this.direccion.actualizarDireccion(datos.direccion());
+        if (datosActualizarMedico.direccion() != null) {
+            this.direccion = direccion.actualizarDatos(datosActualizarMedico.direccion());
         }
     }
 
-    public void eliminar() {
+    public void desactivarMedico() {
         this.activo = false;
     }
 }
-
